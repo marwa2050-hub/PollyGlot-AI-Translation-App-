@@ -1,0 +1,4 @@
+name = "pollyglot-worker"
+main = "worker.js"
+compatibility_date = "2025-10-17"
+workers_dev = true

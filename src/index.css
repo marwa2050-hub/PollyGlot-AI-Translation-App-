@@ -1,0 +1,18 @@
+/* فعال‌سازی پایه‌ی Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* آگاه‌سازی PostCSS برای استفاده از کلاس‌های Tailwind در @apply */
+@reference "tailwindcss";
+
+/* اضافه کردن فونت Inter از گوگل */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* استایل عمومی برای بدنهٔ صفحه */
+body {
+  @apply bg-gradient-to-br from-[#F3FAFD] via-[#E1F0F8] to-[#D0E2F2] text-gray-900;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
