@@ -7,7 +7,8 @@ function App() {
     <div
       className="flex justify-center items-center min-h-screen"
       style={{
-        background: "linear-gradient(180deg, #0098dd 0%, #E1F0F8 50%, #D0E2F2 100%)",
+        background: "none",
+        backgroundColor: "transparent",
       }}
     >
       <Routes>

@@ -79,7 +79,10 @@ export default function Translate() {
   return (
     <div
       className="flex justify-center items-center min-h-screen"
-      style={{ background: "linear-gradient(180deg, #0098dd 0%, #E1F0F8 50%, #D0E2F2 100%)" }}
+      style={{
+        background: "none",
+        backgroundColor: "transparent",
+      }}
     >
       <div
         style={{
@@ -125,7 +128,17 @@ export default function Translate() {
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              style={{ width: "90%", height: 118, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", resize: "none", border: "1px solid #ccc", textAlign: "center" }}
+              style={{
+                width: "90%",
+                height: 118,
+                borderRadius: 8,
+                padding: 8,
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: 18,
+                resize: "none",
+                border: "1px solid #ccc",
+                textAlign: "center",
+              }}
             />
 
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Select language 👇</label>
@@ -185,10 +198,10 @@ export default function Translate() {
             }}
           >
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Original text 👇</label>
-            <div style={{ width: "90%", minHeight: 100, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", border: "1px solid #ccc", backgroundColor: "#f0f4f8", textAlign: "center" }}>{text}</div>
+            <div style={{ width: "90%", minHeight: 100, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", fontSize: 18, border: "1px solid #ccc", backgroundColor: "#f0f4f8", textAlign: "center" }}>{text}</div>
 
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Your translation 👇</label>
-            <div style={{ width: "90%", minHeight: 100, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", border: "1px solid #ccc", backgroundColor: "#f0f4f8", textAlign: "center" }}>{translated}</div>
+            <div style={{ width: "90%", minHeight: 100, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", fontSize: 18, border: "1px solid #ccc", backgroundColor: "#f0f4f8", textAlign: "center" }}>{translated}</div>
 
             <button
               onClick={handleStartOver}

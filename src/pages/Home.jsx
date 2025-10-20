@@ -7,7 +7,8 @@ export default function Home() {
     <div
       className="flex justify-center items-center min-h-screen"
       style={{
-        background: "linear-gradient(180deg, #0098dd 0%, #E1F0F8 50%, #D0E2F2 100%)",
+        background: "none",
+        backgroundColor: "transparent",
       }}
     >
       <div
@@ -31,7 +32,6 @@ export default function Home() {
             backgroundColor: "#0D182E",
           }}
         >
-          {/* لوگوی دوم زیر متن‌ها */}
           <img
             src={logo2}
             alt="Logo Right"
@@ -46,7 +46,6 @@ export default function Home() {
             }}
           />
 
-          {/* لوگو اصلی سمت چپ */}
           <img
             src={logo}
             alt="PollyGlot Logo"
@@ -60,7 +59,6 @@ export default function Home() {
             }}
           />
 
-          {/* نام PollyGlot */}
           <span
             style={{
               position: "absolute",
@@ -79,7 +77,6 @@ export default function Home() {
             PollyGlot
           </span>
 
-          {/* متن زیر نام */}
           <span
             style={{
               position: "absolute",
@@ -102,7 +99,6 @@ export default function Home() {
           </span>
         </header>
 
-        {/* بخش اصلی */}
         <main
           className="flex flex-col justify-center items-center text-center w-full flex-grow"
           style={{
@@ -112,9 +108,9 @@ export default function Home() {
             fontFamily: "'Poppins', sans-serif",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center", // وسط کارت
+            justifyContent: "center",
             alignItems: "center",
-            gap: "16px", // فاصله مساوی و کم بین سه متن
+            gap: "16px",
           }}
         >
           <h1
@@ -143,7 +139,6 @@ export default function Home() {
           </Link>
         </main>
 
-        {/* Footer */}
         <footer
           className="w-full text-center text-sm"
           style={{
