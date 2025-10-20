@@ -12,6 +12,9 @@ export default function Translate() {
   const [language, setLanguage] = useState("");
   const [showCard, setShowCard] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
+
   const navigate = useNavigate();
 
   const handleTranslate = async () => {
@@ -32,6 +35,9 @@ export default function Translate() {
       if (data.translated) {
         setTranslated(data.translated);
         setShowCard(true);
+        setShowHistory(false);
+        // اضافه کردن به تاریخچه به صورت رکورد جدید
+        setHistory(prev => [...prev, { text, translated: data.translated, language }]);
       } else {
         alert("Translation failed");
       }
@@ -47,6 +53,7 @@ export default function Translate() {
     setTranslated("");
     setLanguage("");
     setShowCard(false);
+    setShowHistory(false);
   };
 
   const languageOptions = [
@@ -68,33 +75,20 @@ export default function Translate() {
     transition: "all 0.3s ease",
   };
 
-  const buttonHover = (e) => {
-    e.currentTarget.style.transform = "scale(1.05)";
-  };
-
-  const buttonLeave = (e) => {
-    e.currentTarget.style.transform = "scale(1)";
-  };
+  const buttonHover = (e) => { e.currentTarget.style.transform = "scale(1.05)"; };
+  const buttonLeave = (e) => { e.currentTarget.style.transform = "scale(1)"; };
 
   return (
-    <div
-      className="flex justify-center items-center min-h-screen"
-      style={{
-        background: "none",
-        backgroundColor: "transparent",
-      }}
-    >
-      <div
-        style={{
-          width: "390px",
-          height: "780px",
-          borderRadius: "25px",
-          background: "#FFFFFF",
-          boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
+    <div className="flex justify-center items-center min-h-screen" style={{ background: "none", backgroundColor: "transparent" }}>
+      <div style={{
+        width: "390px",
+        height: "780px",
+        borderRadius: "25px",
+        background: "#FFFFFF",
+        boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+        overflow: "hidden",
+        position: "relative",
+      }}>
         {/* Header */}
         <header style={{ width: "390px", height: "213px", backgroundColor: "#0D182E", position: "relative" }}>
           <img src={logo2} alt="Logo Right" style={{ position: "absolute", top: 0, right: 0, width: 300, height: 200, zIndex: 1 }} />
@@ -104,123 +98,122 @@ export default function Translate() {
         </header>
 
         {/* کارت ورود متن */}
-        {!showCard && (
-          <div
-            style={{
-              position: "absolute",
-              top: 230,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: 362,
-              height: 480,
-              borderRadius: 15,
-              border: "4px solid #252F42",
-              backgroundColor: "#FFFFFF",
-              padding: 15,
-              display: "flex",
-              flexDirection: "column",
-              gap: 15,
-              boxSizing: "border-box",
-              alignItems: "center",
-            }}
-          >
+        {!showCard && !showHistory && (
+          <div style={{
+            position: "absolute", top: 230, left: "50%", transform: "translateX(-50%)",
+            width: 362, height: 480, borderRadius: 15, border: "4px solid #252F42",
+            backgroundColor: "#FFFFFF", padding: 15, display: "flex",
+            flexDirection: "column", gap: 15, boxSizing: "border-box", alignItems: "center",
+          }}>
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Text to translate 👇</label>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               style={{
-                width: "90%",
-                height: 118,
-                borderRadius: 8,
-                padding: 8,
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: 18,
-                resize: "none",
-                border: "1px solid #ccc",
-                textAlign: "center",
+                width: "90%", height: 118, borderRadius: 8, padding: 8,
+                fontFamily: "'Poppins', sans-serif", fontSize: 18, resize: "none",
+                border: "1px solid #ccc", textAlign: "center",
               }}
             />
 
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Select language 👇</label>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}>
               {languageOptions.map((opt) => (
-                <div
-                  key={opt.label}
-                  onClick={() => setLanguage(opt.label)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 10,
-                    cursor: "pointer",
-                    backgroundColor: language === opt.label ? "#D0E2F2" : "transparent",
-                    padding: 5,
-                    borderRadius: 6,
-                  }}
-                >
+                <div key={opt.label} onClick={() => setLanguage(opt.label)} style={{
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                  cursor: "pointer", backgroundColor: language === opt.label ? "#D0E2F2" : "transparent",
+                  padding: 5, borderRadius: 6,
+                }}>
                   <img src={opt.flag} alt={opt.label} style={{ width: 24, height: 16 }} />
                   <span>{opt.label}</span>
                 </div>
               ))}
             </div>
 
-            <button
-              onClick={handleTranslate}
-              style={{ ...buttonStyle, marginTop: "auto" }}
-              disabled={loading}
-              onMouseEnter={buttonHover}
-              onMouseLeave={buttonLeave}
-            >
-              {loading ? "Translating..." : "Translate"}
-            </button>
+            <div style={{ display: "flex", gap: 10, marginTop: "auto" }}>
+              <button onClick={handleTranslate} style={buttonStyle} disabled={loading} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
+                {loading ? "Translating..." : "Translate"}
+              </button>
+              <button onClick={() => setShowHistory(true)} style={buttonStyle} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
+                History
+              </button>
+            </div>
           </div>
         )}
 
         {/* کارت ترجمه */}
-        {showCard && (
-          <div
-            style={{
-              position: "absolute",
-              top: 230,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: 362,
-              minHeight: 480,
-              borderRadius: 15,
-              border: "4px solid #252F42",
-              backgroundColor: "#FFFFFF",
-              padding: 15,
-              display: "flex",
-              flexDirection: "column",
-              gap: 15,
-              boxSizing: "border-box",
-              alignItems: "center",
-            }}
-          >
+        {showCard && !showHistory && (
+          <div style={{
+            position: "absolute", top: 230, left: "50%", transform: "translateX(-50%)",
+            width: 362, minHeight: 480, borderRadius: 15, border: "4px solid #252F42",
+            backgroundColor: "#FFFFFF", padding: 15, display: "flex",
+            flexDirection: "column", gap: 15, boxSizing: "border-box", alignItems: "center",
+          }}>
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Original text 👇</label>
-            <div style={{ width: "90%", minHeight: 100, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", fontSize: 18, border: "1px solid #ccc", backgroundColor: "#f0f4f8", textAlign: "center" }}>{text}</div>
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              style={{
+                width: "90%", minHeight: 100, borderRadius: 8, padding: 8,
+                fontFamily: "'Poppins', sans-serif", fontSize: 18, border: "1px solid #ccc",
+                backgroundColor: "#f0f4f8", textAlign: "center",
+              }}
+            />
 
             <label style={{ color: "#035A9D", fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 18 }}>Your translation 👇</label>
-            <div style={{ width: "90%", minHeight: 100, borderRadius: 8, padding: 8, fontFamily: "'Poppins', sans-serif", fontSize: 18, border: "1px solid #ccc", backgroundColor: "#f0f4f8", textAlign: "center" }}>{translated}</div>
+            <div style={{
+              width: "90%", minHeight: 100, borderRadius: 8, padding: 8,
+              fontFamily: "'Poppins', sans-serif", fontSize: 18, border: "1px solid #ccc",
+              backgroundColor: "#f0f4f8", textAlign: "center",
+            }}>{translated}</div>
 
-            <button
-              onClick={handleStartOver}
-              style={{ ...buttonStyle, marginTop: "auto" }}
-              onMouseEnter={buttonHover}
-              onMouseLeave={buttonLeave}
-            >
-              Start Over
+            <div style={{ display: "flex", gap: 10, marginTop: "auto" }}>
+              <button onClick={handleTranslate} style={buttonStyle} disabled={loading} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
+                {loading ? "Translating..." : "Translate"}
+              </button>
+              <button onClick={() => setShowHistory(true)} style={buttonStyle} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
+                History
+              </button>
+              <button onClick={handleStartOver} style={buttonStyle} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
+                Start Over
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* کارت تاریخچه */}
+        {showHistory && (
+          <div style={{
+            position: "absolute", top: 230, left: "50%", transform: "translateX(-50%)",
+            width: 362, height: 480, borderRadius: 15, border: "4px solid #252F42",
+            backgroundColor: "#FFFFFF", padding: 15, display: "flex",
+            flexDirection: "column", gap: 10, boxSizing: "border-box", alignItems: "center",
+          }}>
+            <h3 style={{ fontFamily: "'Poppins', sans-serif", color: "#035A9D" }}>History</h3>
+            <div style={{
+              width: "100%", flex: 1, overflowY: "auto", display: "flex",
+              flexDirection: "column", gap: 8,
+            }}>
+              {history.length === 0 && <p style={{ fontFamily: "'Poppins', sans-serif" }}>No history yet.</p>}
+              {history.map((item, index) => (
+                <div key={index} style={{
+                  width: "100%", padding: 8, borderRadius: 8, border: "1px solid #ccc",
+                  backgroundColor: "#f0f4f8", display: "flex", flexDirection: "column", gap: 4,
+                }}>
+                  <strong style={{ fontFamily: "'Poppins', sans-serif" }}>{item.language}:</strong>
+                  <div style={{ fontFamily: "'Poppins', sans-serif" }}>Text: {item.text}</div>
+                  <div style={{ fontFamily: "'Poppins', sans-serif" }}>Translation: {item.translated}</div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => setShowHistory(false)} style={{ ...buttonStyle, marginTop: 10 }} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
+              Close History
             </button>
           </div>
         )}
 
         {/* Back button پایین صفحه */}
-        <button
-          onClick={() => navigate("/")}
-          style={{ ...buttonStyle, position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)" }}
-          onMouseEnter={buttonHover}
-          onMouseLeave={buttonLeave}
-        >
+        <button onClick={() => navigate("/")} style={{ ...buttonStyle, position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)" }} onMouseEnter={buttonHover} onMouseLeave={buttonLeave}>
           ← Back
         </button>
       </div>
