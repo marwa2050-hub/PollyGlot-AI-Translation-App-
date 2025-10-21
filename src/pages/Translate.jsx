@@ -64,7 +64,7 @@ export default function Translate() {
 
   const buttonStyle = {
     padding: "10px 25px",
-    background: "linear-gradient(90deg, #32CD32, #1E7F50)",
+    background: "#035A9D", // ← رنگ جدید دکمه‌ها
     color: "#fff",
     border: "none",
     borderRadius: 12,
